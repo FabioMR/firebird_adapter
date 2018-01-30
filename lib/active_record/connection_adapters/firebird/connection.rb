@@ -1,6 +1,6 @@
 module ActiveRecord::ConnectionHandling
   def firebird_connection(config)
-    config = config.symbolize_keys.dup.reverse_merge(downcase_names: true, port: 3050)
+    config = config.symbolize_keys.dup.reverse_merge(downcase_names: true, port: 3050, charset: 'UTF-8', encoding: 'UTF-8')
 
     if config[:host]
       config[:database] = "#{config[:host]}/#{config[:port]}:#{config[:database]}"
