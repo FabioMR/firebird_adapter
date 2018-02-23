@@ -15,9 +15,13 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
         result = @connection.execute(sql, *type_casted_binds)
         if result.is_a?(Fb::Cursor)
-          fields, rows = result.fields.map(&:name), result.fetchall
+          fields = result.fields.map(&:name)
+          rows = result.fetchall[0].map do |row|
+            row.encode('UTF-8', @connection.encoding) rescue row
+          end
+
           result.close
-          ActiveRecord::Result.new(fields, rows)
+          ActiveRecord::Result.new(fields, [rows])
         else
           result
         end
