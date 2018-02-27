@@ -16,12 +16,14 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
         result = @connection.execute(sql, *type_casted_binds)
         if result.is_a?(Fb::Cursor)
           fields = result.fields.map(&:name)
-          rows = result.fetchall[0].map do |row|
-            row.encode('UTF-8', @connection.encoding) rescue row
+          rows = result.fetchall.map do |row|
+            row.map do |col|
+              col.encode('UTF-8', @connection.encoding) rescue col
+            end
           end
 
           result.close
-          ActiveRecord::Result.new(fields, [rows])
+          ActiveRecord::Result.new(fields, rows)
         else
           result
         end

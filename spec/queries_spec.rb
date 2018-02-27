@@ -23,6 +23,12 @@ describe 'query' do
     expect(SisTest.limit(3).count).to eq 2
   end
 
+  it '#limit, #offset' do
+    SisTest.create!
+    SisTest.create!
+    expect(SisTest.limit(2).offset(2).to_a.first).to eq SisTest.last
+  end
+
   it '#where' do
     SisTest.create!
     expect(SisTest.where('id_test < ?', 0).count).to eq 0
