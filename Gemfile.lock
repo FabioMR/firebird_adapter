@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    firebird_adapter (1.0.0)
+    firebird_adapter (1.0.1)
       fb (~> 0.9)
       rails (~> 5.1)
 
