@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    stdin_open: true
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    image: jacobalberty/firebird:2.5.8-ss
+    environment:
+      - ISC_PASSWORD=masterkey
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ./db:/firebird/data

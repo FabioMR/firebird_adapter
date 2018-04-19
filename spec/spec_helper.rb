@@ -7,8 +7,9 @@ require 'active_record'
 ActiveRecord::Base.establish_connection(
   adapter:  'firebird',
   username: 'SYSDBA',
-  password: 'wildfire',
-  database: '/var/lib/firebird/2.5/data/example.fdb',
+  password: 'masterkey',
+  host: 'db',
+  database: '/firebird/data/example.fdb',
   encoding: 'UTF-8',
 )
 
