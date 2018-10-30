@@ -27,6 +27,8 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
         else
           result
         end
+      rescue Exception => e
+        raise e.message.encode('UTF-8', @connection.encoding)
       end
     end
   end
