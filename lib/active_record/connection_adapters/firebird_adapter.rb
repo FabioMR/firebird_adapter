@@ -11,6 +11,7 @@ require 'arel/visitors/firebird'
 class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   ADAPTER_NAME = "Firebird".freeze
+  DEFAULT_ENCODING = "Windows-1252".freeze
 
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseLimits
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements

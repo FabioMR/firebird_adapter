@@ -9,7 +9,10 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   end
 
   def exec_query(sql, name = 'SQL', binds = [], prepare: false)
-    type_casted_binds = type_casted_binds(binds)
+    type_casted_binds = type_casted_binds(binds).map do |value|
+      encoding = ActiveRecord::Base.connection_config[:encoding] || ActiveRecord::ConnectionAdapters::FirebirdAdapter::DEFAULT_ENCODING
+      value.encode(encoding) rescue value
+    end
 
     log(sql, name, binds, type_casted_binds) do
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
