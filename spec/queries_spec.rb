@@ -9,6 +9,48 @@ describe 'query' do
     expect(SisTest.first).to be_present
   end
 
+  it '#second' do
+    expect(SisTest.first).to be_nil
+
+    SisTest.create!(field_integer: 1)
+    SisTest.create!(field_integer: 2)
+    expect(SisTest.second).to be_present
+    expect(SisTest.second.field_integer).to be 2
+  end
+
+  it '#third' do
+    expect(SisTest.first).to be_nil
+
+    SisTest.create!(field_integer: 1)
+    SisTest.create!(field_integer: 2)
+    SisTest.create!(field_integer: 3)
+    expect(SisTest.third).to be_present
+    expect(SisTest.third.field_integer).to be 3
+  end
+
+  it '#fourth' do
+    expect(SisTest.first).to be_nil
+
+    SisTest.create!(field_integer: 1)
+    SisTest.create!(field_integer: 2)
+    SisTest.create!(field_integer: 3)
+    SisTest.create!(field_integer: 4)
+    expect(SisTest.fourth).to be_present
+    expect(SisTest.fourth.field_integer).to be 4
+  end
+
+  it '#fifth' do
+    expect(SisTest.first).to be_nil
+
+    SisTest.create!(field_integer: 1)
+    SisTest.create!(field_integer: 2)
+    SisTest.create!(field_integer: 3)
+    SisTest.create!(field_integer: 4)
+    SisTest.create!(field_integer: 5)
+    expect(SisTest.fifth).to be_present
+    expect(SisTest.fifth.field_integer).to be 5
+  end
+
   it '#all' do
     expect(SisTest.all).to be_empty
 

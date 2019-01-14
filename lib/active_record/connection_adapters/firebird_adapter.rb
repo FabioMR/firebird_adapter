@@ -1,7 +1,6 @@
 require 'fb'
 
 require 'active_record/connection_adapters/firebird/connection'
-require 'active_record/connection_adapters/firebird/calculations'
 require 'active_record/connection_adapters/firebird/database_limits'
 require 'active_record/connection_adapters/firebird/database_statements'
 require 'active_record/connection_adapters/firebird/schema_statements'
