@@ -6,5 +6,13 @@ RUN apt-get update -qq && apt-get install -y libpq-dev build-essential locales f
 
 ENV LANG C.UTF-8
 
-COPY . /app
-RUN bundle
+# Reference: https://github.com/jfroom/docker-compose-rails-selenium-example
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN chmod +x /docker-entrypoint.sh
+
+# Add bundle entry point to handle bundle cache
+ENV BUNDLE_PATH=/.gems \
+    BUNDLE_BIN=/.gems/bin \
+    GEM_HOME=/.gems
+ENV PATH="${BUNDLE_BIN}:${PATH}"

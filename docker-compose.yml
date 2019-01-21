@@ -4,10 +4,11 @@ services:
   app:
     build: .
     stdin_open: true
-    volumes:
-      - .:/app
     depends_on:
       - db
+    volumes:
+      - .:/app
+      - gems:/.gems
 
   db:
     image: jacobalberty/firebird:2.5.8-ss
@@ -15,4 +16,9 @@ services:
       - ISC_PASSWORD=masterkey
       - TZ=America/Sao_Paulo
     volumes:
+      - firebird:/firebird
       - ./db:/firebird/data
+
+volumes:
+  gems:
+  firebird:
