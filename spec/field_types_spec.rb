@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'field types' do
 
+  around(:each) do |example|
+    DatabaseCleaner.cleaning { example.run }
+  end
+
   it 'varchar' do
     value = 'A1áéíóúàçã9z'
     record = SisTest.create!(field_varchar: value).reload

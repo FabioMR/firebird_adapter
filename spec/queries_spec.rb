@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'query' do
 
+  around(:each) do |example|
+    DatabaseCleaner.cleaning { example.run }
+  end
+
   it '#first' do
     SisTest.create!(id_test: 1)
     expect(SisTest.first.id_test).to be 1

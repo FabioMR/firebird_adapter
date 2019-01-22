@@ -1,5 +1,21 @@
 module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
-
+  
+  def native_database_types
+    {
+      primary_key: 'integer not null primary key',
+      string:      { name: 'varchar', limit: 255 },
+      text:        { name: 'blob sub_type text' },
+      integer:     { name: 'integer' },
+      float:       { name: 'float' },
+      decimal:     { name: 'decimal' },
+      datetime:    { name: 'timestamp' },
+      timestamp:   { name: 'timestamp' },
+      date:        { name: 'date' },
+      binary:      { name: 'blob' },
+      boolean:     { name: 'smallint' }
+    }
+  end
+  
   def execute(sql, name = nil)
     log(sql, name) do
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
@@ -46,6 +62,36 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
   def exec_rollback_db_transaction
     log("rollback transaction", nil) { @connection.rollback }
+  end
+
+  def create_table(table_name, **options)
+    super
+
+    if options[:sequence] != false && options[:id] != false
+      sequence_name = options[:sequence] || default_sequence_name(table_name)
+      create_sequence(sequence_name)
+    end
+  end
+
+  def drop_table(table_name, options = {})
+    if options[:sequence] != false
+      sequence_name = options[:sequence] || default_sequence_name(table_name)
+      drop_sequence(sequence_name) if sequence_exists?(sequence_name)
+    end
+
+    super
+  end
+
+  def create_sequence(sequence_name)
+    execute("CREATE SEQUENCE #{sequence_name}") rescue nil
+  end
+
+  def drop_sequence(sequence_name)
+    execute("DROP SEQUENCE #{sequence_name}") rescue nil
+  end
+  
+  def sequence_exists?(sequence_name)
+    @connection.generator_names.include?(sequence_name)
   end
 
   def default_sequence_name(table_name, _column = nil)

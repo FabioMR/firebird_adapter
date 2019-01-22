@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'populate' do
 
+  around(:each) do |example|
+    DatabaseCleaner.cleaning { example.run }
+  end
+
   it '.create' do
     record = SisTest.create!
     expect(record).to be_persisted

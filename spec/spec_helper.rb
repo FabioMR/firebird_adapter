@@ -17,9 +17,3 @@ class SisTest < ActiveRecord::Base
   self.table_name = 'sis_test'
   self.primary_key = 'id_test'
 end
-
-RSpec.configure do |config|
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning { example.run }
-  end
-end

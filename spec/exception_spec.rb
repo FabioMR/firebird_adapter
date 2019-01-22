@@ -10,9 +10,6 @@ describe 'exception' do
     ActiveRecord::Base.establish_connection(ActiveRecord::Base.connection_config.merge(encoding: 'UTF-8'))
   end
 
-  class Model < ActiveRecord::Base
-  end
-
   it 'execute block with exception' do
     expect do
       ActiveRecord::Base.connection.exec_query <<-SQL
