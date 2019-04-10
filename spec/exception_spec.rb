@@ -16,10 +16,10 @@ describe 'exception' do
         EXECUTE BLOCK
         AS
         BEGIN
-          EXCEPTION ERROR('ƒÆ');
+          EXCEPTION ERROR('A1áéíóúàçã9z');
         END
       SQL
-    end.to raise_error(Exception, /Æ’Ã†/)
+    end.to raise_error(Exception, /A1áéíóúàçã9z/)
   end
 
 end

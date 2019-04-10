@@ -1,5 +1,5 @@
 module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
-  
+
   def native_database_types
     {
       primary_key: 'integer not null primary key',
@@ -15,8 +15,10 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
       boolean:     { name: 'smallint' }
     }
   end
-  
+
   def execute(sql, name = nil)
+    sql = sql.encode(encoding, 'UTF-8')
+
     log(sql, name) do
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
         @connection.query(sql)
@@ -25,8 +27,9 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   end
 
   def exec_query(sql, name = 'SQL', binds = [], prepare: false)
+    sql = sql.encode(encoding, 'UTF-8')
+
     type_casted_binds = type_casted_binds(binds).map do |value|
-      encoding = ActiveRecord::Base.connection_config[:encoding] || ActiveRecord::ConnectionAdapters::FirebirdAdapter::DEFAULT_ENCODING
       value.encode(encoding) rescue value
     end
 
@@ -89,7 +92,7 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   def drop_sequence(sequence_name)
     execute("DROP SEQUENCE #{sequence_name}") rescue nil
   end
-  
+
   def sequence_exists?(sequence_name)
     @connection.generator_names.include?(sequence_name)
   end

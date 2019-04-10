@@ -46,23 +46,32 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   def reset!
     reconnect!
   end
-      
+
   def primary_keys(table_name)
     raise ArgumentError unless table_name.present?
 
     names = query_values(<<~SQL, "SCHEMA")
-      SELECT 
+      SELECT
         s.rdb$field_name
-      FROM 
+      FROM
         rdb$indices i
         JOIN rdb$index_segments s ON i.rdb$index_name = s.rdb$index_name
         LEFT JOIN rdb$relation_constraints c ON i.rdb$index_name = c.rdb$index_name
-      WHERE 
+      WHERE
         i.rdb$relation_name = '#{table_name.upcase}'
         AND c.rdb$constraint_type = 'PRIMARY KEY';
     SQL
 
     names.map(&:strip).map(&:downcase)
+  end
+
+  def encoding
+    ActiveRecord::Base.connection_config[:encoding] || ActiveRecord::ConnectionAdapters::FirebirdAdapter::DEFAULT_ENCODING
+  end
+
+  def log(sql, name = "SQL", binds = [], type_casted_binds = [], statement_name = nil) # :doc:
+    sql = sql.encode('UTF-8', encoding) if sql.encoding.to_s == encoding
+    super
   end
 
 protected

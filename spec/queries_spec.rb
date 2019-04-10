@@ -78,4 +78,12 @@ describe 'query' do
     expect(SisTest.where('id_test > ?', 0).count).to eq 1
   end
 
+  it 'where with accent' do
+    value = 'A1áéíóúàçã9z'
+    SisTest.create!(field_varchar: value)
+
+    expect(SisTest.where(SisTest.arel_table[:field_varchar].eq(value)).count).to eq 1
+    expect(SisTest.where(field_varchar: value).count).to eq 1
+  end
+
 end
