@@ -66,7 +66,7 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   end
 
   def encoding
-    ActiveRecord::Base.connection_config[:encoding] || ActiveRecord::ConnectionAdapters::FirebirdAdapter::DEFAULT_ENCODING
+    @connection.encoding
   end
 
   def log(sql, name = "SQL", binds = [], type_casted_binds = [], statement_name = nil) # :doc:
