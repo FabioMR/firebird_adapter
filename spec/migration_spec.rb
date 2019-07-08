@@ -125,4 +125,14 @@ describe 'migration' do
     expect(record.reload.field_boolean).to eq 1
   end
 
+  it 'indexes' do
+    expect { ActiveRecord::Migration.add_index :sis_test, :id_test, name: 'index_' }.not_to raise_error
+    expect { ActiveRecord::Migration.remove_index :sis_test, name: 'index_' }.not_to raise_error
+  end
+
+  it 'foreign keys' do
+    expect { ActiveRecord::Migration.add_foreign_key :sis_test, :sis_test, column: :id_test, primary_key: :id_test, name: 'foreign_key_' }.not_to raise_error
+    expect { ActiveRecord::Migration.remove_foreign_key :sis_test, name: 'foreign_key_' }.not_to raise_error
+  end
+
 end
