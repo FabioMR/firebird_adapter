@@ -20,13 +20,8 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
 
   @boolean_domain = { name: "smallint", limit: 1, type: "smallint", true: 1, false: 0}
 
-  def self.boolean_domain=(domain)
-    ActiveRecord::ConnectionAdapters::Firebird::Column::TRUE_VALUES << domain[:true]
-    @boolean_domain = domain
-  end
-
   class << self
-    attr_reader :boolean_domain
+    attr_accessor :boolean_domain
   end
 
   def arel_visitor
