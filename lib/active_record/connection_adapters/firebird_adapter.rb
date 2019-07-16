@@ -4,6 +4,7 @@ require 'active_record/connection_adapters/firebird/connection'
 require 'active_record/connection_adapters/firebird/database_limits'
 require 'active_record/connection_adapters/firebird/database_statements'
 require 'active_record/connection_adapters/firebird/schema_statements'
+require 'active_record/connection_adapters/firebird/column'
 
 require 'arel/visitors/firebird'
 
@@ -15,6 +16,17 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseLimits
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   include ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
+
+  @boolean_domain = { name: "smallint", limit: 1, type: "smallint", true: 1, false: 0}
+
+  def self.boolean_domain
+    @boolean_domain
+  end
+
+  def self.boolean_domain=(domain)
+    ActiveRecord::ConnectionAdapters::Firebird::Column::TRUE_VALUES << domain[:true]
+    @boolean_domain = domain
+  end
 
   def arel_visitor
     @arel_visitor ||= Arel::Visitors::Firebird.new(self)

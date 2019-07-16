@@ -1,5 +1,6 @@
 module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
+  delegate :boolean_domain, to: 'ActiveRecord::ConnectionAdapters::FirebirdAdapter'
   def native_database_types
     {
       primary_key: 'integer not null primary key',
@@ -12,7 +13,7 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
       timestamp:   { name: 'timestamp' },
       date:        { name: 'date' },
       binary:      { name: 'blob' },
-      boolean:     { name: 'smallint' }
+      boolean:     { name: ActiveRecord::ConnectionAdapters::FirebirdAdapter.boolean_domain[:name] }
     }
   end
 

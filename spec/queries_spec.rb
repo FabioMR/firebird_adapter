@@ -86,4 +86,12 @@ describe 'query' do
     expect(SisTest.where(field_varchar: value).count).to eq 1
   end
 
+  it 'where with boolean' do
+    value = false
+    SisTest.create!(field_boolean: value)
+
+    expect(SisTest.where(SisTest.arel_table[:field_boolean].eq(value)))
+    expect(SisTest.where(field_boolean: value).count).to eq 1
+  end
+
 end
