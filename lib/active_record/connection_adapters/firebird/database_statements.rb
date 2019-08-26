@@ -1,20 +1,6 @@
 module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
-  def native_database_types
-    {
-      primary_key: 'integer not null primary key',
-      string:      { name: 'varchar', limit: 255 },
-      text:        { name: 'blob sub_type text' },
-      integer:     { name: 'integer' },
-      float:       { name: 'float' },
-      decimal:     { name: 'decimal' },
-      datetime:    { name: 'timestamp' },
-      timestamp:   { name: 'timestamp' },
-      date:        { name: 'date' },
-      binary:      { name: 'blob' },
-      boolean:     { name: 'smallint' }
-    }
-  end
+  delegate :boolean_domain, to: 'ActiveRecord::ConnectionAdapters::FirebirdAdapter'
 
   def execute(sql, name = nil)
     sql = sql.encode(encoding, 'UTF-8')

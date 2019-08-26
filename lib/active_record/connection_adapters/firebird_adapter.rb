@@ -4,6 +4,8 @@ require 'active_record/connection_adapters/firebird/connection'
 require 'active_record/connection_adapters/firebird/database_limits'
 require 'active_record/connection_adapters/firebird/database_statements'
 require 'active_record/connection_adapters/firebird/schema_statements'
+require 'active_record/connection_adapters/firebird/sql_type_metadata'
+require 'active_record/connection_adapters/firebird/fb_column'
 require 'active_record/connection_adapters/firebird/quoting'
 
 require 'arel/visitors/firebird'
@@ -13,10 +15,37 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   ADAPTER_NAME = "Firebird".freeze
   DEFAULT_ENCODING = "Windows-1252".freeze
 
+  include ActiveRecord::ConnectionAdapters::Firebird::Quoting
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseLimits
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   include ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
   include ActiveRecord::ConnectionAdapters::Firebird::Quoting
+
+
+
+  @boolean_domain = { name: "smallint", limit: 1, type: "smallint", true: 1, false: 0}
+
+  class << self
+    attr_accessor :boolean_domain
+  end
+
+  NATIVE_DATABASE_TYPES =  {
+    primary_key: 'integer not null primary key',
+    string:      { name: 'varchar', limit: 255 },
+    text:        { name: 'blob sub_type text' },
+    integer:     { name: 'integer' },
+    float:       { name: 'float' },
+    decimal:     { name: 'decimal' },
+    datetime:    { name: 'timestamp' },
+    timestamp:   { name: 'timestamp' },
+    date:        { name: 'date' },
+    binary:      { name: 'blob' },
+    boolean:     { name: ActiveRecord::ConnectionAdapters::FirebirdAdapter.boolean_domain[:name] }
+  }
+
+  def native_database_types
+    NATIVE_DATABASE_TYPES
+  end
 
   def arel_visitor
     @arel_visitor ||= Arel::Visitors::Firebird.new(self)
