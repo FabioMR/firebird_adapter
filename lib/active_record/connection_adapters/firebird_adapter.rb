@@ -19,6 +19,7 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseLimits
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   include ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
+  include ActiveRecord::ConnectionAdapters::Firebird::Quoting
 
 
 
@@ -96,12 +97,16 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   end
 
   def encoding
-    ActiveRecord::Base.connection_config[:encoding] || ActiveRecord::ConnectionAdapters::FirebirdAdapter::DEFAULT_ENCODING
+    @connection.encoding
   end
 
   def log(sql, name = "SQL", binds = [], type_casted_binds = [], statement_name = nil) # :doc:
     sql = sql.encode('UTF-8', encoding) if sql.encoding.to_s == encoding
     super
+  end
+
+  def supports_foreign_keys?
+    true
   end
 
 protected
