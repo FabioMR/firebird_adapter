@@ -6,6 +6,7 @@ require 'active_record/connection_adapters/firebird/database_statements'
 require 'active_record/connection_adapters/firebird/schema_statements'
 require 'active_record/connection_adapters/firebird/sql_type_metadata'
 require 'active_record/connection_adapters/firebird/fb_column'
+require 'active_record/connection_adapters/firebird/quoting'
 
 require 'arel/visitors/firebird'
 
@@ -14,6 +15,7 @@ class ActiveRecord::ConnectionAdapters::FirebirdAdapter < ActiveRecord::Connecti
   ADAPTER_NAME = "Firebird".freeze
   DEFAULT_ENCODING = "Windows-1252".freeze
 
+  include ActiveRecord::ConnectionAdapters::Firebird::Quoting
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseLimits
   include ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
   include ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements

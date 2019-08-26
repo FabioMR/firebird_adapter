@@ -2,6 +2,7 @@ module ActiveRecord
   module ConnectionAdapters
     module Firebird
       class FbColumn < ActiveRecord::ConnectionAdapters::Column # :nodoc:
+
         attr_reader :domain
         def initialize(
             name,

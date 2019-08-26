@@ -1,21 +1,6 @@
 module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
   delegate :boolean_domain, to: 'ActiveRecord::ConnectionAdapters::FirebirdAdapter'
-  def native_database_types
-    {
-      primary_key: 'integer not null primary key',
-      string:      { name: 'varchar', limit: 255 },
-      text:        { name: 'blob sub_type text' },
-      integer:     { name: 'integer' },
-      float:       { name: 'float' },
-      decimal:     { name: 'decimal' },
-      datetime:    { name: 'timestamp' },
-      timestamp:   { name: 'timestamp' },
-      date:        { name: 'date' },
-      binary:      { name: 'blob' },
-      boolean:     { name: ActiveRecord::ConnectionAdapters::FirebirdAdapter.boolean_domain[:name] }
-    }
-  end
 
   def execute(sql, name = nil)
     sql = sql.encode(encoding, 'UTF-8')
@@ -106,4 +91,71 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
     @connection.query("SELECT NEXT VALUE FOR #{sequence_name} FROM RDB$DATABASE")[0][0]
   end
 
+end
+
+module ActiveModel
+  module Type
+    # class String < ImmutableString # :nodoc:
+    #   def changed_in_place?(raw_old_value, new_value)
+    #     if new_value.is_a?(::String)
+    #       raw_old_value != new_value
+    #     end
+    #   end
+
+    #   private
+
+    #     def cast_value(value)
+    #       puts "\n"
+    #       puts "="*40
+    #       puts "String value"
+    #       ap value
+    #       puts "="*40
+    #       case value
+    #       when ::String then ::String.new(value)
+    #       when true then "T".freeze
+    #       when false then "F".freeze
+    #       else value.to_s
+    #       end
+    #     end
+    # end
+
+
+    # class ImmutableString < Value # :nodoc:
+    #   def type
+    #     :string
+    #   end
+
+    #   def serialize(value)
+    #     puts "\n"
+    #     puts "="*40
+    #     puts "serialize value"
+    #     ap value
+    #     puts "="*40
+    #     case value
+    #     when ::Numeric, ActiveSupport::Duration then value.to_s
+    #     when true then "T"
+    #     when false then "F"
+    #     else super
+    #     end
+    #   end
+
+    #   private
+
+    #     def cast_value(value)
+    #       puts "\n"
+    #       puts "="*40
+    #       puts "ImmutableString value"
+    #       ap value
+    #       puts "="*40
+    #       result = \
+    #         case value
+    #         when true then "t"
+    #         when false then "f"
+    #         else value.to_s
+    #         end
+    #       result.freeze
+    #     end
+    # end
+
+  end
 end
