@@ -50,6 +50,8 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
           else
             result
           end
+        rescue RangeError
+          ActiveRecord::Result.new([], [])
         rescue Exception => e
           raise e.message.encode('UTF-8', @connection.encoding)
         end
