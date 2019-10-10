@@ -86,4 +86,11 @@ describe 'query' do
     expect(SisTest.where(field_varchar: value).count).to eq 1
   end
 
+  it 'where search is larger than field size' do
+    value = '0123456789X'
+
+    expect(SisTest.find_by(field_char: value)).to eq nil
+    expect(SisTest.where(field_char: value).count).to eq 0
+  end
+
 end
