@@ -50,7 +50,7 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
           elsif name.ends_with?(' Destroy')
             result
           else
-            ActiveRecord::Result.new([], [[]])
+            ActiveRecord::Result.new([], [])
           end
         rescue RangeError
           ActiveRecord::Result.new([], [])
