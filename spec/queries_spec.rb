@@ -87,7 +87,7 @@ describe 'query' do
   end
 
   it 'where search is larger than field size' do
-    value = '0123456789X'
+    value = '012345678912345X'
 
     expect(SisTest.find_by(field_char: value)).to eq nil
     expect(SisTest.where(field_char: value).count).to eq 0
