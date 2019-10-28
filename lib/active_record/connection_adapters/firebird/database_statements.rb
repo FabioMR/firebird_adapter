@@ -47,8 +47,10 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
             result.close
             ActiveRecord::Result.new(fields, rows)
-          else
+          elsif name.ends_with?(' Destroy')
             result
+          else
+            ActiveRecord::Result.new([], [[]])
           end
         rescue Exception => e
           raise e.message.encode('UTF-8', @connection.encoding)
