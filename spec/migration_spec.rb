@@ -135,4 +135,23 @@ describe 'migration' do
     expect { ActiveRecord::Migration.remove_foreign_key :sis_test, name: 'foreign_key_' }.not_to raise_error
   end
 
+  it 'add column' do
+    create_table do |t|
+    end
+
+    ActiveRecord::Migration.add_column :records, :new_field, :string
+
+    expect(Record.has_attribute?(:new_field)).to be
+  end
+
+  it 'remove column' do
+    create_table do |t|
+      t.string :new_field
+    end
+
+    ActiveRecord::Migration.remove_column :records, :new_field
+
+    expect(Record.has_attribute?(:new_field)).not_to be
+  end
+
 end

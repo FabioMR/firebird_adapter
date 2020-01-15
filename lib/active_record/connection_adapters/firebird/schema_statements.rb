@@ -109,6 +109,10 @@ module ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
 
 private
 
+  def remove_column_for_alter(table_name, column_name, type = nil, options = {})
+    "DROP #{quote_column_name(column_name)}"
+  end
+
   def column_definitions(table_name)
     @connection.columns(table_name)
   end
