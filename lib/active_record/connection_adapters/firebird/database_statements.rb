@@ -55,6 +55,7 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
         rescue RangeError
           ActiveRecord::Result.new([], [])
         rescue Exception => e
+          result.close if result.is_a?(Fb::Cursor)
           raise e.message.encode('UTF-8', @connection.encoding)
         end
       end
