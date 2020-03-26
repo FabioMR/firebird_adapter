@@ -60,4 +60,12 @@ class Arel::Visitors::Firebird < Arel::Visitors::ToSql
     collector << 'SKIP '
     visit o.expr, collector
   end
+
+  def visit_Arel_Nodes_Union o, collector
+    infix_value(o, collector, ' UNION ')
+  end
+
+  def visit_Arel_Nodes_UnionAll o, collector
+    infix_value(o, collector, ' UNION ALL ')
+  end
 end
