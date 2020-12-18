@@ -52,8 +52,9 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
           else
             ActiveRecord::Result.new([], [])
           end
-        rescue RangeError
-          ActiveRecord::Result.new([], [])
+        rescue RangeError => e
+          return ActiveRecord::Result.new([], []) if sql.downcase.start_with? 'select'
+          raise e
         rescue Exception => e
           result.close if result.is_a?(Fb::Cursor)
           raise e.message.encode('UTF-8', @connection.encoding)

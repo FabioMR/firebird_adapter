@@ -10,6 +10,10 @@ describe 'populate' do
     record = SisTest.create!
     expect(record).to be_persisted
     expect(record.id_test).to be_present
+
+    expect do
+      record = SisTest.create!(field_char: '012345678912345X')
+    end.to raise_error(ActiveRecord::StatementInvalid, /RangeError/) 
   end
 
   it '.update_all' do
@@ -28,6 +32,10 @@ describe 'populate' do
     record = SisTest.create!
     record.update!(field_varchar: 'ALTERADO')
     expect(record.field_varchar).to eq 'ALTERADO'
+    
+    expect do
+      record.update!(field_char: '012345678912345X')
+    end.to raise_error(ActiveRecord::StatementInvalid, /RangeError/) 
   end
 
   it '#destroy' do
