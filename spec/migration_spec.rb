@@ -124,10 +124,10 @@ describe 'migration' do
     record = Record.create!(id: 2, field_boolean: true)
     expect(record.reload.field_boolean).to eq 1
   end
-
+  
   it 'indexes' do
-    expect { ActiveRecord::Migration.add_index :sis_test, :id_test, name: 'index_' }.not_to raise_error
-    expect { ActiveRecord::Migration.remove_index :sis_test, name: 'index_' }.not_to raise_error
+    expect { ActiveRecord::Migration.add_index :sis_test, :id_test, name: 'ix_id_test' }.not_to raise_error
+    expect { ActiveRecord::Migration.remove_index :sis_test, :id_test, { name: 'ix_id_test' } }.not_to raise_error
   end
 
   it 'foreign keys' do

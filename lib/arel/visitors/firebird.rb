@@ -16,24 +16,23 @@ module Arel
 
       visit_Arel_Nodes_SelectOptions(select_statement, collector)
 
-      collector = maybe_visit o.top, collector
-
+      collector = collect_optimizer_hints(o, collector)
       collector = maybe_visit o.set_quantifier, collector
 
-      collect_nodes_for o.projections, collector, SPACE
+      collect_nodes_for o.projections, collector, ' '
 
       if o.source && !o.source.empty?
         collector << ' FROM '
         collector = visit o.source, collector
       end
 
-      collect_nodes_for o.wheres, collector, WHERE, AND
-      collect_nodes_for o.groups, collector, GROUP_BY
+      collect_nodes_for o.wheres, collector, ' WHERE ', ' AND '
+      collect_nodes_for o.groups, collector, ' GROUP BY '
       unless o.havings.empty?
         collector << ' HAVING '
-        inject_join o.havings, collector, AND
+        inject_join o.havings, collector, ' AND '
       end
-      collect_nodes_for o.windows, collector, WINDOW
+      collect_nodes_for o.windows, collector, ' WINDOW '
 
       collector
     end
@@ -41,7 +40,7 @@ module Arel
     def visit_Arel_Nodes_SelectStatement o, collector
       if o.with
         collector = visit o.with, collector
-        collector << SPACE
+        collector << ' '
       end
 
       collector = o.cores.inject(collector) { |c,x|
@@ -49,11 +48,11 @@ module Arel
       }
 
       unless o.orders.empty?
-        collector << ORDER_BY
+        collector << ' ORDER BY '
         len = o.orders.length - 1
         o.orders.each_with_index { |x, i|
           collector = visit(x, collector)
-          collector << COMMA unless len == i
+          collector << ', ' unless len == i
         }
       end
 
