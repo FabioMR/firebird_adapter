@@ -1,14 +1,19 @@
 # FirebirdAdapter
 
-ActiveRecord Firebird Adapter for Rails 5.
+ActiveRecord Firebird Adapter for Rails 5 and 6.
+
+According to our new versioning strategy use:
+- firebird_adapter 6.x for Rails 6.x  
+- firebird_adapter 5.x for Rails from 5.x
 
 ## Installation
 
 Add in your Gemfile:
 
 ```ruby
-gem 'firebird_adapter'
+gem 'firebird_adapter', '6.0'
 ```
+
 
 And then execute:
 

@@ -47,7 +47,7 @@ module ActiveRecord::ConnectionAdapters::Firebird::DatabaseStatements
 
             result.close
             ActiveRecord::Result.new(fields, rows)
-          elsif name.ends_with?(' Destroy')
+          elsif name.end_with?(' Destroy')
             result
           else
             ActiveRecord::Result.new([], [])

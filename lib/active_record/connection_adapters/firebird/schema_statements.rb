@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string/strip'
+
 module ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
 
   def tables(_name = nil)
@@ -42,8 +44,8 @@ module ActiveRecord::ConnectionAdapters::Firebird::SchemaStatements
     end
   end
 
-  def remove_index(table_name, options = {})
-    index_name = index_name_for_remove(table_name, options)
+  def remove_index(table_name, column, options = {})
+    index_name = index_name_for_remove(table_name, column, options)
     execute "DROP INDEX #{quote_column_name(index_name)}"
   end
 
