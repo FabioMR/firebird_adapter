@@ -7,7 +7,7 @@ ActiveRecord Firebird Adapter for Rails 5.
 Add in your Gemfile:
 
 ```ruby
-gem 'firebird_adapter'
+gem 'firebird_adapter', '5.0'
 ```
 
 And then execute:
