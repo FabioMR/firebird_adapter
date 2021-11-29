@@ -85,11 +85,11 @@ protected
   def translate_exception(e, message)
     case e.message
     when /violation of FOREIGN KEY constraint/
-      ActiveRecord::InvalidForeignKey.new(message)
+      ActiveRecord::InvalidForeignKey.new(e.message)
     when /violation of PRIMARY or UNIQUE KEY constraint/, /attempt to store duplicate value/
-      ActiveRecord::RecordNotUnique.new(message)
+      ActiveRecord::RecordNotUnique.new(e.message)
     when /This operation is not defined for system tables/
-      ActiveRecord::ActiveRecordError.new(message)
+      ActiveRecord::ActiveRecordError.new(e.message)
     else
       super
     end
