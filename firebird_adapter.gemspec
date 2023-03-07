@@ -3,10 +3,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'firebird_adapter'
-  spec.version       = '6.0.0'
+  spec.version       = '7.0.0'
   spec.authors       = ['Fábio Rodrigues']
   spec.email         = ['fabio.info@gmail.com']
-  spec.summary       = 'ActiveRecord Firebird Adapter for Rails 6.'
+  spec.summary       = 'ActiveRecord Firebird Adapter for Rails 7.'
   spec.homepage      = 'https://github.com/FabioMR/firebird_adapter'
   spec.license       = 'MIT'
 
@@ -17,12 +17,12 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '~> 2.7'
 
-  spec.add_dependency 'rails', '~> 6.0'
-  spec.add_dependency 'fb', '~> 0.9.0'
+  spec.add_dependency 'rails', '~> 7.0'
+  spec.add_dependency 'fb', '~> 0.9.3'
 
-  spec.add_development_dependency 'bundler', '~> 2.1.4'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.7'
-  spec.add_development_dependency 'database_cleaner', '~> 1.6'
+  spec.add_development_dependency 'bundler', '~> 2.4.7'
+  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rspec', '~> 6.0'
+  spec.add_development_dependency 'database_cleaner', '~> 2.1'
   spec.add_development_dependency 'pry-meta', '~> 0.0.10'
 end

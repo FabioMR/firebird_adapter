@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
-ruby '3.2.0'
+ruby '2.7.7'
 
 gemspec
