@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: embraslabs/ruby:2.7.2
+    image: embraslabs/ruby:2.7.7
     stdin_open: true
     depends_on:
       - db
